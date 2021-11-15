@@ -72,9 +72,13 @@ function findSpotForCol(x) {
 
 function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
-  let cell = document.getElementById(`${y}-${x}`);
-  cell.className += "piece";
-  cell.className += " p"+currPlayer;
+  const cell = document.getElementById(`${y}-${x}`);
+  const div = document.createElement("div");
+  div.className += "piece";
+  div.className += " p"+currPlayer;
+  div.classList.add("piece")
+  div.classList.add("p")
+  cell.append(div);
 }
 
 /** endGame: announce game end */
@@ -115,6 +119,9 @@ function handleClick(evt) {
   }
 
   // check for tie
+  if(checkForTie()) {
+    window.alert("Game is Tie");
+  }
   // TODO: check if all cells in board are filled; if so call, call endGame
 
   // switch players
@@ -154,6 +161,16 @@ function checkForWin() {
       }
     }
   }
+}
+
+function checkForTie() {
+  for (arr of board) {
+    let tie = arr.every((currentValue) => {
+        return currentValue === 1 || currentValue === 2;
+      })
+      if(!tie) return false;
+  }
+  return true;
 }
 
 makeBoard();
